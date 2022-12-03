@@ -13,7 +13,7 @@ class CustomTextField extends StatelessWidget {
   final String? label;
   final int? maxLines;
   final int? maxLength;
-  final int minLines;
+  final int? minLines;
   final Color fillColor;
   final double borderWidth;
   final BorderStyle borderStyle;
@@ -32,10 +32,10 @@ class CustomTextField extends StatelessWidget {
       this.textController,
       this.validator,
       this.label,
-      this.fillColor = Colors.black,
-      this.borderWidth = 0,
-      this.borderColor = Colors.transparent,
-      this.borderStyle = BorderStyle.none,
+      this.fillColor = Colors.white,
+      this.borderWidth = 2,
+      this.borderColor = Colors.blue,
+      this.borderStyle = BorderStyle.solid,
       this.keyboard = TextInputType.name});
 
   @override
@@ -49,10 +49,10 @@ class CustomTextField extends StatelessWidget {
       minLines: minLines,
       validator: validator,
       controller: textController,
-      cursorColor: Colors.white,
+      cursorColor: Colors.black,
       autofocus: false,
       style: const TextStyle(
-          fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+          fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
         prefixIcon: preffixWidget,
         filled: true,

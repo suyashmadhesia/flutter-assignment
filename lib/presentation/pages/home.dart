@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import 'package:trumsy/presentation/widgets/button.dart';
+import 'package:trumsy/presentation/widgets/text_field.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -39,7 +41,7 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.all(Radius.circular(16.0)),
                 ),
                 onTap: () {
-                  debugPrint('Tapped');
+                  showAddTaskModal(context);
                 },
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -90,4 +92,93 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+Future<dynamic> showAddTaskModal(BuildContext parentContext) {
+  void save() {}
+
+  return showDialog(
+    context: parentContext,
+    builder: (BuildContext context) {
+      return SimpleDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(0.0),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 5,
+        titlePadding: const EdgeInsets.all(0.0),
+        title: Container(
+          decoration: const BoxDecoration(
+            color: Colors.blue,
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 24.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Text(
+                "Create your own Task",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+        children: [
+          const Text("Task Name"),
+          const SizedBox(
+            height: 10,
+          ),
+          const CustomTextField(
+            textAlignment: TextAlign.start,
+            hintText: "e.g. Eat Fresh Fruits",
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const Text("Description"),
+          const SizedBox(
+            height: 10,
+          ),
+          const CustomTextField(
+            textAlignment: TextAlign.start,
+            hintText: "e.g. Eat Fresh Fruits",
+            minLines: 4,
+            maxLines: 5,
+            keyboard: TextInputType.multiline,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const Text("You can find this task in\n\"My Saved Custom tasks\""),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              CustomButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                fontColor: Colors.black,
+                backgroundColor: Colors.white,
+                buttonName: "Cancel",
+              ),
+              CustomButton(
+                onPressed: save,
+                fontColor: Colors.white,
+                backgroundColor: Colors.blue,
+                buttonName: "Save",
+              ),
+            ],
+          ),
+        ],
+      );
+    },
+  );
 }

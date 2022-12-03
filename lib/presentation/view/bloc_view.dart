@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trumsy/presentation/pages/home.dart';
+import 'package:trumsy/presentation/pages/tasks.dart';
 import '../../blocs/bloc.dart';
 
 class TaskBlocBuilder extends StatefulWidget {
@@ -15,12 +15,15 @@ class _TaskBlocBuilderState extends State<TaskBlocBuilder> {
     return BlocBuilder<TasksBloc, TasksState>(
       builder: (context, state) {
         if (state is LoadingTasksState) {
-          // return const Center(child: CircularProgressIndicator());
-          return const HomePage();
+          return const CircularProgressIndicator();
+        } else if (state is ShowTasksState) {
+          if (state.tasks.isEmpty) {
+            return const Text('No Tasks');
+          } else {
+            return TasksWidget(tasks: state.tasks);
+          }
         }
-        return const Center(
-          child: Text('Something went wrong'),
-        );
+        return const Text('Something went wrong');
       },
     );
   }

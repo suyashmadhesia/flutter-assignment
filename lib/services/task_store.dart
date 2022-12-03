@@ -18,7 +18,7 @@ class TaskStore {
     prefs?.setString(task.id, task.toJSON());
   }
 
-  Future<List<Task>> get() async {
+  Future<List<Task>> getAll() async {
     if (prefs == null) {
       await init();
     }
@@ -27,5 +27,12 @@ class TaskStore {
       tasks.add(Task.fromJSON(key));
     });
     return tasks;
+  }
+
+  Future<Task> get(String key) async {
+    if (prefs == null) {
+      await init();
+    }
+    return Task.fromJSON(prefs!.getString(key)!);
   }
 }

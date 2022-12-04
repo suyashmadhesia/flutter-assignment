@@ -1,7 +1,10 @@
 import "package:flutter/material.dart";
 import 'package:trumsy/blocs/bloc.dart';
+import 'package:trumsy/models/task.dart';
+import 'package:trumsy/presentation/view/bloc_view.dart';
 import 'package:trumsy/presentation/widgets/button.dart';
 import 'package:trumsy/presentation/widgets/text_field.dart';
+import 'package:uuid/uuid.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,6 +17,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    debugPrint("HomePage");
     BlocProvider.of<TasksBloc>(context).add(ShowLoadingScreenEvent());
   }
 
@@ -86,6 +90,7 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 height: 20,
               ),
+              const TaskBlocBuilder(),
             ],
           ),
         ),
@@ -95,7 +100,24 @@ class _HomePageState extends State<HomePage> {
 }
 
 Future<dynamic> showAddTaskModal(BuildContext parentContext) {
-  void save() {}
+  String taskName = "";
+  String description = "";
+  const Uuid uuid = Uuid();
+  void save() {
+    if (taskName.isNotEmpty && description.isNotEmpty) {
+      Task task =
+          Task(description: description, title: taskName, id: uuid.v4());
+      BlocProvider.of<TasksBloc>(parentContext).add(CreateTaskEvent(task));
+    }
+  }
+
+  void onChangeTaskName(String value) {
+    taskName = value;
+  }
+
+  void onChangeDescription(String value) {
+    description = value;
+  }
 
   return showDialog(
     context: parentContext,
@@ -133,7 +155,8 @@ Future<dynamic> showAddTaskModal(BuildContext parentContext) {
           const SizedBox(
             height: 10,
           ),
-          const CustomTextField(
+          CustomTextField(
+            onChanged: onChangeTaskName,
             textAlignment: TextAlign.start,
             hintText: "e.g. Eat Fresh Fruits",
           ),
@@ -144,12 +167,13 @@ Future<dynamic> showAddTaskModal(BuildContext parentContext) {
           const SizedBox(
             height: 10,
           ),
-          const CustomTextField(
+          CustomTextField(
             textAlignment: TextAlign.start,
             hintText: "e.g. Eat Fresh Fruits",
             minLines: 4,
             maxLines: 5,
             keyboard: TextInputType.multiline,
+            onChanged: onChangeDescription,
           ),
           const SizedBox(
             height: 20,
@@ -165,6 +189,7 @@ Future<dynamic> showAddTaskModal(BuildContext parentContext) {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
+                borderColor: Colors.blue,
                 fontColor: Colors.black,
                 backgroundColor: Colors.white,
                 buttonName: "Cancel",
@@ -173,6 +198,7 @@ Future<dynamic> showAddTaskModal(BuildContext parentContext) {
                 onPressed: save,
                 fontColor: Colors.white,
                 backgroundColor: Colors.blue,
+                borderColor: Colors.blue,
                 buttonName: "Save",
               ),
             ],

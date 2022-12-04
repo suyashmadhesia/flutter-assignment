@@ -24,7 +24,7 @@ class TaskStore {
     }
     List<Task> tasks = [];
     prefs?.getKeys().forEach((key) {
-      tasks.add(Task.fromJSON(key));
+      tasks.add(Task.fromJSON(prefs!.getString(key)!));
     });
     return tasks;
   }

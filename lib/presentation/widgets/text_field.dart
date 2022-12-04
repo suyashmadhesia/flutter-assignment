@@ -4,12 +4,11 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController? textController;
   final String? Function(String?)? validator;
   final String? hintText;
-  final String? helperText;
   final TextAlign textAlignment;
   final TextInputType keyboard;
   final Widget? preffixWidget;
   final bool readOnly;
-  final void Function(String)? onChanged;
+  final void Function(String) onChanged;
   final String? label;
   final int? maxLines;
   final int? maxLength;
@@ -21,13 +20,12 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField(
       {super.key,
       required this.textAlignment,
-      this.onChanged,
+      required this.onChanged,
       this.maxLines = 1,
       this.maxLength,
       this.minLines = 1,
       this.readOnly = false,
       this.preffixWidget,
-      this.helperText,
       @required this.hintText,
       this.textController,
       this.validator,

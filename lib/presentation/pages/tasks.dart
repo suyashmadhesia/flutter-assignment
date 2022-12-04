@@ -11,7 +11,17 @@ class TasksWidget extends StatefulWidget {
 
 class _TasksWidgetState extends State<TasksWidget> {
   @override
+  void initState() {
+    for (Task task in widget.tasks) {
+      debugPrint(task.title);
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: const Text("Something here"),
+    );
   }
 }

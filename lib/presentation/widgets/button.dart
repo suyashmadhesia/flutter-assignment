@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton(
-      {super.key,
-      required this.onPressed,
-      required this.fontColor,
-      required this.backgroundColor,
-      required this.buttonName});
+  const CustomButton({
+    super.key,
+    required this.onPressed,
+    required this.fontColor,
+    required this.backgroundColor,
+    required this.buttonName,
+    required this.borderColor,
+  });
 
   final void Function() onPressed;
   final Color fontColor;
   final String buttonName;
   final Color backgroundColor;
+  final Color borderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class CustomButton extends StatelessWidget {
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(32.0),
-              side: const BorderSide(color: Colors.blue, width: 2),
+              side: BorderSide(color: borderColor, width: 2),
             ),
           ),
         ),

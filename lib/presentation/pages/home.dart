@@ -4,6 +4,7 @@ import 'package:trumsy/models/task.dart';
 import 'package:trumsy/presentation/view/bloc_view.dart';
 import 'package:trumsy/presentation/widgets/button.dart';
 import 'package:trumsy/presentation/widgets/text_field.dart';
+import 'package:trumsy/presentation/widgets/trumsy_tasks.dart';
 import 'package:uuid/uuid.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,17 +24,28 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select Task'),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
-        child: Scrollbar(
+      body: RawScrollbar(
+        thickness: 5,
+        thumbColor: Colors.blue,
+        radius: const Radius.circular(8.0),
+        thumbVisibility: true,
+        trackVisibility: true,
+        trackColor: Colors.grey.shade200,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.0625),
           child: ListView(
             physics: const BouncingScrollPhysics(),
             children: [
+              SizedBox(
+                height: height * 0.035,
+              ),
               Container(
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(234, 245, 254, 255),
@@ -41,13 +53,14 @@ class _HomePageState extends State<HomePage> {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1),
-                      blurRadius: 8.0,
-                      offset: const Offset(0, 4),
+                      blurRadius: 1.0,
+                      offset: const Offset(0, 0.4),
                     ),
                   ],
                 ),
                 child: ListTile(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 24.0),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: height * 0.033),
                   tileColor: const Color.fromARGB(255, 203, 241, 255),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0)),
@@ -58,8 +71,8 @@ class _HomePageState extends State<HomePage> {
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      CircleAvatar(
+                    children: [
+                      const CircleAvatar(
                         backgroundColor: Colors.white,
                         child: Icon(
                           Icons.add,
@@ -68,9 +81,9 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       SizedBox(
-                        width: 10,
+                        width: width * 0.03125,
                       ),
-                      Text(
+                      const Text(
                         'Custom (Create your own Task)',
                         style: TextStyle(
                           fontSize: 15,
@@ -82,15 +95,31 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 25.0),
+              SizedBox(
+                height: height * 0.035,
+              ),
               const Text(
                 "My Saved Custom Tasks",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-              const SizedBox(
-                height: 20,
+              SizedBox(
+                height: height * 0.035,
               ),
               const TaskBlocBuilder(),
+              SizedBox(
+                height: height * 0.035,
+              ),
+              const Text(
+                "Trumsy Recommended Tasks",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              SizedBox(
+                height: height * 0.035,
+              ),
+              TrumsyTasks(),
+              SizedBox(
+                height: height * 0.035,
+              ),
             ],
           ),
         ),
@@ -103,13 +132,6 @@ Future<dynamic> showAddTaskModal(BuildContext parentContext) {
   String taskName = "";
   String description = "";
   const Uuid uuid = Uuid();
-  void save() {
-    if (taskName.isNotEmpty && description.isNotEmpty) {
-      Task task =
-          Task(description: description, title: taskName, id: uuid.v4());
-      BlocProvider.of<TasksBloc>(parentContext).add(CreateTaskEvent(task));
-    }
-  }
 
   void onChangeTaskName(String value) {
     taskName = value;
@@ -195,7 +217,17 @@ Future<dynamic> showAddTaskModal(BuildContext parentContext) {
                 buttonName: "Cancel",
               ),
               CustomButton(
-                onPressed: save,
+                onPressed: () {
+                  if (taskName.isNotEmpty && description.isNotEmpty) {
+                    Task task = Task(
+                        description: description,
+                        title: taskName,
+                        id: uuid.v4());
+                    BlocProvider.of<TasksBloc>(parentContext)
+                        .add(CreateTaskEvent(task));
+                    Navigator.of(parentContext).pop();
+                  }
+                },
                 fontColor: Colors.white,
                 backgroundColor: Colors.blue,
                 borderColor: Colors.blue,

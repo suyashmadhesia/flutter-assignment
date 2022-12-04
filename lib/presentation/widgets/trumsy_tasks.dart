@@ -1,28 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:trumsy/models/task.dart';
 
-class TasksWidget extends StatefulWidget {
-  final List<Task> tasks;
-  const TasksWidget({super.key, required this.tasks});
+class TrumsyTasks extends StatelessWidget {
+  TrumsyTasks({super.key});
+  final List<String> trumsyRecommendedTasks = [
+    "Make your bed",
+    "Cleaning",
+    "Sports",
+    "Bringing in the garbage cans",
+    "Watering Plants",
+    "Helping with meal planning and making grocery lists"
+  ];
 
-  @override
-  State<TasksWidget> createState() => _TasksWidgetState();
-}
-
-class _TasksWidgetState extends State<TasksWidget> {
-  @override
-  void initState() {
-    for (Task task in widget.tasks) {
-      debugPrint(task.title);
-    }
-    super.initState();
-  }
-
-  List<Widget> tasksListWidget(double width, double height) {
+  List<Widget> tasksListWidget(
+      double width, List<String> tasks, double height) {
     List<Widget> tasksWidgets = [];
-    for (Task task in widget.tasks) {
+    for (String task in tasks) {
       double widthPer = 0.0;
-      int len = task.title.length;
+      int len = task.length;
       if (len <= 15) {
         widthPer = 0.25;
       } else if (len > 15 && len <= 30) {
@@ -35,7 +29,7 @@ class _TasksWidgetState extends State<TasksWidget> {
         width: width * widthPer,
         height: height * 0.137,
         decoration: BoxDecoration(
-          color: const Color.fromARGB(234, 216, 236, 255),
+          color: const Color.fromARGB(234, 255, 222, 216),
           borderRadius: BorderRadius.circular(16.0),
           boxShadow: [
             BoxShadow(
@@ -46,10 +40,7 @@ class _TasksWidgetState extends State<TasksWidget> {
           ],
         ),
         child: Center(
-          child: Text(
-            task.title,
-            textAlign: TextAlign.center,
-          ),
+          child: Text(task, textAlign: TextAlign.center),
         ),
       );
       tasksWidgets.add(taskWidget);
@@ -64,7 +55,7 @@ class _TasksWidgetState extends State<TasksWidget> {
     return Wrap(
       spacing: width * 0.0625, // gap between adjacent chips
       runSpacing: height * 0.03,
-      children: tasksListWidget(width, height),
+      children: tasksListWidget(width, trumsyRecommendedTasks, height),
     );
   }
 }

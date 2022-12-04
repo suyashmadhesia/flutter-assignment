@@ -17,11 +17,13 @@ class CreateTaskEvent extends TasksEvent {
 class ShowLoadingScreenEvent extends TasksEvent {}
 
 class UpdateTasksEvent extends TasksEvent {
-  final Task task;
+  final String id;
+  final String title;
+  final String des;
 
-  const UpdateTasksEvent(this.task);
+  const UpdateTasksEvent(this.id, this.title, this.des);
   @override
-  List<Object> get props => [task];
+  List<Object> get props => [id, title, des];
 }
 
 class GetTasksEvent extends TasksEvent {}

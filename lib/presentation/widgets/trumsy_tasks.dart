@@ -30,7 +30,7 @@ class TrumsyTasks extends StatelessWidget {
         height: height * 0.137,
         decoration: BoxDecoration(
           color: const Color.fromARGB(234, 255, 222, 216),
-          borderRadius: BorderRadius.circular(16.0),
+          borderRadius: BorderRadius.circular(24.0),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),

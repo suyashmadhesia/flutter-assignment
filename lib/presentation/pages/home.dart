@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
               Container(
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(234, 245, 254, 255),
-                  borderRadius: BorderRadius.circular(16.0),
+                  borderRadius: BorderRadius.circular(24.0),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1),
@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                       EdgeInsets.symmetric(vertical: height * 0.033),
                   tileColor: const Color.fromARGB(255, 203, 241, 255),
                   shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(24.0)),
                   ),
                   onTap: () {
                     showAddTaskModal(context);
@@ -128,7 +128,8 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-Future<dynamic> showAddTaskModal(BuildContext parentContext) {
+Future<dynamic> showAddTaskModal(BuildContext parentContext,
+    {bool edit = false, String id = "", String title = "", String des = ""}) {
   String taskName = "";
   String description = "";
   const Uuid uuid = Uuid();
@@ -180,7 +181,7 @@ Future<dynamic> showAddTaskModal(BuildContext parentContext) {
           CustomTextField(
             onChanged: onChangeTaskName,
             textAlignment: TextAlign.start,
-            hintText: "e.g. Eat Fresh Fruits",
+            hintText: title == "" ? "e.g. Eat Fresh Fruits" : title,
           ),
           const SizedBox(
             height: 20,
@@ -191,7 +192,7 @@ Future<dynamic> showAddTaskModal(BuildContext parentContext) {
           ),
           CustomTextField(
             textAlignment: TextAlign.start,
-            hintText: "e.g. Eat Fresh Fruits",
+            hintText: des == "" ? "e.g. Eat Fresh Fruits" : des,
             minLines: 4,
             maxLines: 5,
             keyboard: TextInputType.multiline,
@@ -218,7 +219,7 @@ Future<dynamic> showAddTaskModal(BuildContext parentContext) {
               ),
               CustomButton(
                 onPressed: () {
-                  if (taskName.isNotEmpty && description.isNotEmpty) {
+                  if (taskName.isNotEmpty && description.isNotEmpty && !edit) {
                     Task task = Task(
                         description: description,
                         title: taskName,
@@ -226,6 +227,13 @@ Future<dynamic> showAddTaskModal(BuildContext parentContext) {
                     BlocProvider.of<TasksBloc>(parentContext)
                         .add(CreateTaskEvent(task));
                     Navigator.of(parentContext).pop();
+                  } else {
+                    if (edit && (taskName != "" || description != "")) {
+                      debugPrint("here");
+                      BlocProvider.of<TasksBloc>(parentContext)
+                          .add(UpdateTasksEvent(id, taskName, description));
+                      Navigator.of(parentContext).pop();
+                    }
                   }
                 },
                 fontColor: Colors.white,

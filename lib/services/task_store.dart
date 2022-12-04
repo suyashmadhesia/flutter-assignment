@@ -26,6 +26,7 @@ class TaskStore {
     prefs?.getKeys().forEach((key) {
       tasks.add(Task.fromJSON(prefs!.getString(key)!));
     });
+    tasks.sort((a, b) => b.title.length.compareTo(a.title.length));
     return tasks;
   }
 
@@ -34,5 +35,9 @@ class TaskStore {
       await init();
     }
     return Task.fromJSON(prefs!.getString(key)!);
+  }
+
+  Future<void> deleteTask(String id) async {
+    prefs?.remove(id);
   }
 }

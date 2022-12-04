@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../../services/task_store.dart';
 import '../bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -19,6 +21,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       add(GetTasksEvent());
     });
     on<GetTasksEvent>((event, emit) {
+      emit(LoadingTasksState());
       store?.getAll().then((tasks) {
         emit(ShowTasksState(tasks));
       });
@@ -27,5 +30,13 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       store?.set(event.task);
       add(GetTasksEvent());
     });
+    on<UpdateTasksEvent>(((event, emit) async {
+      Task? task = await store?.get(event.id);
+      store?.deleteTask(event.id);
+      String title = event.title == "" ? task!.title : event.title;
+      String des = event.des == "" ? task!.description : event.des;
+      store?.set(Task(description: des, title: title, id: event.id));
+      add(GetTasksEvent());
+    }));
   }
 }

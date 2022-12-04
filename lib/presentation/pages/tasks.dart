@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trumsy/models/task.dart';
+import 'package:trumsy/presentation/pages/home.dart';
 
 class TasksWidget extends StatefulWidget {
   final List<Task> tasks;
@@ -30,27 +31,52 @@ class _TasksWidgetState extends State<TasksWidget> {
       } else {
         widthPer = 0.75 + 0.125;
       }
-      final Container taskWidget = Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-        width: width * widthPer,
-        height: height * 0.137,
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(234, 216, 236, 255),
-          borderRadius: BorderRadius.circular(16.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 1.0,
-              offset: const Offset(0, 0.4),
+      final Column taskWidget = Column(
+        children: [
+          Container(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+            width: width * widthPer,
+            height: height * 0.137,
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(234, 216, 236, 255),
+              borderRadius: BorderRadius.circular(24.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 1.0,
+                  offset: const Offset(0, 0.4),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Center(
-          child: Text(
-            task.title,
-            textAlign: TextAlign.center,
+            child: Center(
+              child: Text(
+                task.title,
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
-        ),
+          const SizedBox(
+            height: 8.0,
+          ),
+          GestureDetector(
+            child: const Text(
+              "Edit",
+              style: TextStyle(
+                fontSize: 12,
+              ),
+            ),
+            onTap: () {
+              showAddTaskModal(
+                context,
+                edit: true,
+                id: task.id,
+                title: task.title,
+                des: task.description,
+              );
+            },
+          )
+        ],
       );
       tasksWidgets.add(taskWidget);
     }

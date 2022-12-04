@@ -6,6 +6,7 @@ import 'package:trumsy/presentation/widgets/button.dart';
 import 'package:trumsy/presentation/widgets/text_field.dart';
 import 'package:trumsy/presentation/widgets/trumsy_tasks.dart';
 import 'package:uuid/uuid.dart';
+import "package:flutter/services.dart";
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -116,6 +117,23 @@ class _HomePageState extends State<HomePage> {
                 height: height * 0.035,
               ),
               TrumsyTasks(),
+              SizedBox(
+                height: height * 0.035,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomButton(
+                    onPressed: () {
+                      SystemNavigator.pop();
+                    },
+                    borderColor: Colors.blue,
+                    fontColor: Colors.black,
+                    backgroundColor: Colors.white,
+                    buttonName: "Cancel",
+                  ),
+                ],
+              ),
               SizedBox(
                 height: height * 0.035,
               ),

@@ -18,7 +18,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    debugPrint("HomePage");
     BlocProvider.of<TasksBloc>(context).add(ShowLoadingScreenEvent());
   }
 
@@ -229,7 +228,6 @@ Future<dynamic> showAddTaskModal(BuildContext parentContext,
                     Navigator.of(parentContext).pop();
                   } else {
                     if (edit && (taskName != "" || description != "")) {
-                      debugPrint("here");
                       BlocProvider.of<TasksBloc>(parentContext)
                           .add(UpdateTasksEvent(id, taskName, description));
                       Navigator.of(parentContext).pop();

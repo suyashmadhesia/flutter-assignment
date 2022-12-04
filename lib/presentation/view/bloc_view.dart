@@ -18,7 +18,12 @@ class _TaskBlocBuilderState extends State<TaskBlocBuilder> {
           return const CircularProgressIndicator();
         } else if (state is ShowTasksState) {
           if (state.tasks.isEmpty) {
-            return const Text('No Tasks');
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text('No Tasks! create your own tasks'),
+              ],
+            );
           } else {
             return TasksWidget(tasks: state.tasks);
           }
